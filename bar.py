@@ -2,7 +2,7 @@ from libqtile import widget
 from libqtile.bar import Bar
 from libqtile.config import Screen
 
-from colors import seiun
+from colors import seiun, red_gray_gradient
 from unicodes import left_arrow, right_arrow
 
 widget_defaults = dict(
@@ -31,28 +31,28 @@ screens = [
                     borderwidth=0,
                     margin_x=0,
                     padding_x=10,
-                    highlight_color=seiun['fg'],
-                    block_highlight_text_color=seiun['bg'],
-                    highlight_method='line'),
+                    highlight_method='line',
+                    block_highlight_text_color=seiun['red'],
+                    highlight_color=seiun['bg']),
 
-                right_arrow(seiun['dark-gray'], seiun['bg']),
+                right_arrow(seiun['dark-yellow'], seiun['bg']),
                 # display the current wm layout
                 widget.CurrentLayout(
-                    background=seiun['dark-gray'],
+                    background=seiun['dark-yellow'],
                     fmt='[{}]',
                     padding=10),
 
-                right_arrow(seiun['gray'], seiun['dark-gray']),
+                right_arrow(seiun['yellow'], seiun['dark-yellow']),
                 widget.WindowCount(
-                    background=seiun['gray'],
-                    foreground=seiun['bg'],
+                    background=seiun['yellow'],
                     padding=5,
                     fmt=' {}'),
-                right_arrow(seiun['bg'], seiun['gray']),
+                right_arrow(seiun['bg'], seiun['yellow']),
                 widget.WindowName(
+                    foreground=seiun['cyan'],
                     padding=10),
 
-                left_arrow(seiun['bg'], seiun['gray1']),
+                left_arrow(seiun['bg'], seiun['dark-blue']),
                 # display total available updates
                 widget.CheckUpdates(
                     distro='Arch',
@@ -62,50 +62,45 @@ screens = [
                     colour_no_updates=seiun['fg'],
                     no_update_string='No updates',
                     display_format='累 {updates} updates',
-                    background=seiun['gray1']),
+                    background=seiun['dark-blue']),
 
-                left_arrow(seiun['gray1'], seiun['gray2']),
+                left_arrow(seiun['dark-blue'], seiun['blue']),
                 # display memory usage 
                 widget.Memory(
-                    background=seiun['gray2'],
-                    foreground=seiun['bg'],
+                    background=seiun['blue'],
                     padding=10,
                     measure_mem='G',
                     format=' {MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}'),
 
-                left_arrow(seiun['gray2'], seiun['gray3']),
+                left_arrow(seiun['blue'], seiun['dark-magenta']),
                 # display cpu usage
                 widget.CPU(
-                    background=seiun['gray3'],
-                    foreground=seiun['bg'],
+                    background=seiun['dark-magenta'],
                     padding=10,
                     format=' {freq_current}GHz {load_percent}%'),
 
-                left_arrow(seiun['gray3'], seiun['gray4']),
+                left_arrow(seiun['dark-magenta'], seiun['magenta']),
                 # Display essid and connection strength
                 widget.Wlan(
-                    background=seiun['gray4'],
-                    foreground=seiun['bg'],
+                    background=seiun['magenta'],
                     padding=10,
                     format='直 {essid} {percent:2.0%}',
                     interface='wlp2s0'),
 
-                left_arrow(seiun['gray4'], seiun['gray5']),
+                left_arrow(seiun['magenta'], seiun['dark-cyan']),
                 widget.PulseVolume(
-                    background=seiun['gray5'],
-                    foreground=seiun['bg'],
+                    background=seiun['dark-cyan'],
                     fmt=' {}',
                     padding=10,
                     volume_app='pavucontrol'),
 
-                left_arrow(seiun['gray5'], seiun['gray6']),
+                left_arrow(seiun['dark-cyan'], seiun['cyan']),
                 widget.Clock(
                     format='%Y-%m-%d %a %I:%M %p',
-                    background=seiun['gray6'],
-                    foreground=seiun['bg'],
+                    background=seiun['cyan'],
                     padding=10),
 
-                left_arrow(seiun['gray6'], seiun['fg']),
+                left_arrow(seiun['cyan'], seiun['fg']),
                 widget.Systray(
                     background=seiun['fg'],
                     padding=10),
@@ -115,9 +110,9 @@ screens = [
                     background=seiun['fg']
                 ),
 
-                left_arrow(seiun['fg'], seiun['red']),
+                left_arrow(seiun['fg'], seiun['green']),
                 widget.QuickExit(
-                    background=seiun['red'],
+                    background=seiun['green'],
                     foreground=seiun['bg'],
                     default_text='',
                     fontsize=17,

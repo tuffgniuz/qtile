@@ -2,28 +2,21 @@
 
 seiun = {
     'bg':           '#202020',
-    'fg':           '#ececec',
-    'dark-red':     '#e6554f',
+    'fg':           '#dfdfdf',
+    'dark-red':     '#ea7171',
     'red':          '#ed8682',
-    'dark-green':   '#7a981a',
-    'green':        '#9bc021',
-    'dark-yellow':  '#d6841f',
-    'yellow':       '#e3973b',
-    'dark-blue':    '#487588',
-    'blue':         '#6c9db2',
+    'dark-green':   '#96a171',
+    'green':        '#b1d094',
+    'dark-yellow':  '#e7a55f',
+    'yellow':       '#ecb983',
+    'dark-blue':    '#7196a1',
+    'blue':         '#9fb8bf',
     'dark-magenta': '#c28490',
-    'magenta':      '#d095a9',
-    'dark-cyan':    '#5ca27c',
-    'cyan':         '#7cb6a3',
+    'magenta':      '#d7adb5',
+    'dark-cyan':    '#80ab96',
+    'cyan':         '#9fbfaf',
     'dark-gray':    '#3d3d3d',
-    'gray':         '#999999',
-
-    'gray1':        '#414141',
-    'gray2':        '#5D5D5D',
-    'gray3':        '#7A7A7A',
-    'gray4':        '#969696',
-    'gray5':        '#B3B3B3',
-    'gray6':        '#CFCFCF'
+    'gray':         '#666666',
 }
 
 # gruvbox = {

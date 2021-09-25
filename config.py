@@ -1,4 +1,5 @@
 import os
+
 import subprocess
 from typing import List
 from libqtile.config import ScratchPad, DropDown, Group, Match, Key
@@ -8,7 +9,7 @@ from libqtile import extension
 from libqtile.config import Click, Drag
 from libqtile.lazy import lazy
 
-from colors import seiun
+from colors import seiun, red_gray_gradient
 from bar import widget_defaults, screens
 from keys import browser, terminal, keys, mod
 
@@ -32,10 +33,6 @@ for i in groups:
         # mod1 + letter of group = switch to group
         Key([mod], i.name, lazy.group[i.name].toscreen(),
             desc="Switch to group {}".format(i.name)),
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-        #     desc="Switch to & move focused window to group {}".format(i.name)),
-        # Or, use below if you prefer not to switch to that group.
         # mod1 + shift + letter of group = move focused window to group
         Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
             desc="move focused window to group {}".format(i.name)),
@@ -63,7 +60,7 @@ layouts = [
         ratio=0.55,
         add_after_last=True,
         border_normal=seiun['dark-gray'],
-        border_focus=seiun['fg'],
+        border_focus=seiun['blue'],
         border_width=3,
         shift_windows=True,
         border_on_single=True,
@@ -103,7 +100,7 @@ floating_layout = layout.Floating(
     Match(title='branchdialog'),  # gitk
     Match(title='pinentry'),  # GPG key password entry
     ],
-    border_focus=seiun['dark-red'],
+    border_focus=seiun['blue'],
     border_normal=seiun['dark-gray'],
     border_width=4)
 auto_fullscreen = True
