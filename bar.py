@@ -2,7 +2,7 @@ from libqtile import widget
 from libqtile.bar import Bar
 from libqtile.config import Screen
 
-from colors import seiun, red_gray_gradient
+from colors import seiun
 from unicodes import left_arrow, right_arrow
 
 widget_defaults = dict(

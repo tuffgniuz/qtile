@@ -9,7 +9,7 @@ from libqtile import extension
 from libqtile.config import Click, Drag
 from libqtile.lazy import lazy
 
-from colors import seiun, red_gray_gradient
+from colors import seiun
 from bar import widget_defaults, screens
 from keys import browser, terminal, keys, mod
 
