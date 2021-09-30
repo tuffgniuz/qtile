@@ -3,7 +3,7 @@ from libqtile.bar import Bar
 from libqtile.config import Screen
 
 from colors import seiun
-from unicodes import left_arrow, right_arrow
+from unicodes import left_arrow, lower_left_triangle, right_arrow
 
 widget_defaults = dict(
     font='Terminus',
@@ -22,7 +22,11 @@ screens = [
                     text='', # arch logo
                     fontsize=22,
                     padding=10,
-                    foreground=seiun['dark-blue']),
+                    background=seiun['dark-red'],
+                    foreground=seiun['fg']),
+                 # right_arrow(seiun['bg'], seiun['dark-red']),
+                 lower_left_triangle(seiun['dark-red'], seiun['bg']),
+
                 # display groups
                 widget.GroupBox(
                     active=seiun['fg'],
