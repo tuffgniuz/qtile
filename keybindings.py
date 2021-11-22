@@ -2,7 +2,7 @@ from libqtile import extension
 from libqtile.lazy import lazy
 from libqtile.config import Key
 
-from colors import seiun
+from colors import gruvbox
 
 mod = 'mod4'
 browser = 'firefox'
@@ -58,6 +58,11 @@ keys = [
         lazy.layout.normalize(), 
         desc="Reset all window sizes"),
 
+    Key([mod], "i", lazy.layout.grow()),
+    Key([mod], "m", lazy.layout.shrink()),
+    Key([mod], "n", lazy.layout.normalize()),
+    Key([mod], "o", lazy.layout.maximize()),
+
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -92,10 +97,10 @@ keys = [
             dmenu_font='Terminus',
             dmenu_height=22,
             dmenu_lines=15,
-            background=seiun['bg'],
-            foreground=seiun['dark-gray'],
-            selected_background=seiun['dark-gray'],
-            selected_foreground=seiun['fg'],
+            background=gruvbox['bg'],
+            foreground=gruvbox['dark-gray'],
+            selected_background=gruvbox['dark-gray'],
+            selected_foreground=gruvbox['fg'],
         )),
         desc="Spawn a command using a prompt widget"),
     Key([mod], "Return", 
@@ -111,14 +116,14 @@ keys = [
         lazy.spawn('zoom'),
         desc="Launch zoom"),
     Key([mod], "e",
-        lazy.spawn(terminal + ' -e nnn -d -C')),
-    Key([mod, 'shift'], 'm',
-        lazy.spawn(terminal + ' -e neomutt'),
-        desc='Launches neomut in terminal'),
+        lazy.spawn(f'{terminal} nnn -d -C')),
     Key([mod], 'v',
-        lazy.spawn(terminal + ' -e vtop'),
+        lazy.spawn(f'{terminal} vtop'),
         desc="Launch vtop"),
-    Key([mod], 't',
-        lazy.spawn(terminal + ' -e rtorrent'))
+    
+    # toggle scratchpad dropdowns
+    Key([], "F1", lazy.group['scratchpad'].dropdown_toggle('fm')),
+    Key([], "F2", lazy.group['scratchpad'].dropdown_toggle('ncmpcpp')),
+    Key([], "F3", lazy.group['scratchpad'].dropdown_toggle('term')),
 ]
 

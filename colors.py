@@ -1,4 +1,22 @@
 # color definitions
+sonokai = {
+    'bg':           '#2d2a2e',
+    'fg':           '#e3e1e4',
+    'dark-red':     '#f85e84',
+    'red':          '#f85384',
+    'dark-green':   '#9ecd6f',
+    'green':        '#9ecd6f',
+    'dark-yellow':  '#e5c46e',
+    'yellow':       '#e5c46e',
+    'dark-blue':    '#7accd7',
+    'blue':         '#7accd7',
+    'dark-magenta': '#ab9df2',
+    'magenta':      '#ab9df2',
+    'dark-cyan':    '#ef9062',
+    'cyan':         '#ef9062',
+    'dark-gray':    '#1a181a',
+    'gray':         '#848089',
+}
 
 seiun = {
     'bg':           '#202020',
@@ -19,29 +37,48 @@ seiun = {
     'gray':         '#666666',
 }
 
+gruvbox = {
+    'bg':           '#282828',
+    'fg':           '#d4be98',
+    'dark-red':     '#ea6962',
+    'red':          '#ea6962',
+    'dark-green':   '#a9b665',
+    'green':        '#a9b665',
+    'dark-yellow':  '#e78a4e',
+    'yellow':       '#d8a657',
+    'dark-blue':    '#7daea3',
+    'blue':         '#7daea3',
+    'dark-magenta': '#d3869b',
+    'magenta':      '#d3869b',
+    'dark-cyan':    '#89b482',
+    'cyan':         '#89b482',
+    'dark-gray':    '#665c54',
+    'gray':         '#928374',
+
+    'fg4':          '#766f64',
+    'fg3':          '#665c54',
+    'fg2':          '#504945',
+    'fg1':          '#3c3836',
+    'bg0':          '#32302f',
+    'fg0':          '#1d2021',
+    'fg9':          '#ebdbb2'
+     }
+
 # gruvbox = {
 #     'bg':           '#282828',
-#     'bg0_h':        '#1d2021',
-#     'bg1':          '#3c3836',
-#     'bg2':          '#504945',
-#     'bg3':          '#665c45',
-#     'bg4':          '#7c6f64',
-#     'gray':         '#928374',
-#     'dark-grey':    '#a89984',
-
-#     'fg0':          '#fbf1c7',
 #     'fg':           '#ebdbb2',
 #     'dark-red':     '#cc241d',
-#     'light-red':    '#fb4934',
+#     'red':          '#fb4934',
 #     'dark-green':   '#98971a',
-#     'light-green':  '#b8bb26',
+#     'green':        '#b8bb26',
 #     'dark-yellow':  '#d79921',
-#     'light-yellow': '#fabd2f',
+#     'yellow':       '#fabd2f',
 #     'dark-blue':    '#458588',
-#     'light-blue':   '#83a598',
-#     'dark-purple':  '#b16286',
-#     'light-purple': '#d3869b',
-#     'dark-aqua':    '#689d6a',
-#     'light-aqua':   '#8ec07c',
-# }
-
+#     'blue':         '#83a598',
+#     'dark-magenta':  '#b16286',
+#     'magenta':       '#d3869b',
+#     'dark-cyan':    '#689d6a',
+#     'cyan':         '#8ec07c',
+#     'dark-gray':    '#3d3d3d',
+#     'gray':         '#666666',
+#  }
