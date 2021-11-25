@@ -38,4 +38,4 @@ volctl &
 mictray &
 
 # vpn
-nordvpn connect Singapore &
+# nordvpn connect Singapore &

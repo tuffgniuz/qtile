@@ -1,11 +1,11 @@
 from libqtile.widget import TextBox
 
+
 def lower_left_triangle(bg_color, fg_color):
     return TextBox(
-                    text='\ue0be',
+                    text='\u25e2',
                     padding=0,
-                    fontsize=22,
-                    font='Iconsolata for Powerline',
+                    fontsize=50, 
                     background=bg_color,
                     foreground=fg_color)
 

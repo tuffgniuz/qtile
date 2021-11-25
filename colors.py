@@ -1,3 +1,37 @@
+nord_fox = {
+    'bg': "#2e3440",
+    'fg': "#b9bfca",
+    'fg_gutter'  : "#4b5668",
+    'black'      : "#3b4252",
+    'red'        : "#bf616a",
+    'green'      : "#a3be8c",
+    'yellow'     : "#ebcb8b",
+    'blue'       : "#81a1c1",
+    'magenta'    : "#b48ead",
+    'cyan'       : "#88c0d0",
+    'white'      : "#e5e9f0",
+    'orange'     : "#c9826b",
+    'pink'       : "#bf88bc",
+}
+
+nord = {
+    'nord0':     '#2e3440',
+    'nord1':     '#3b4252',
+    'nord2':     '#434c54',
+    'nord3':     '#4c566a',
+    'nord4':     '#d8dee9',
+    'nord5':     '#eceff4',
+    'nord6':     '#8fbcbb',
+    'nord7':     '#88c0d0',
+    'nord8':     '#81a1c1',
+    'nord9':     '#5e81ac',
+    'nord10':    '#bf616a',
+    'nord11':    '#d08770',
+    'nord12':    '#ebcb8b',
+    'nord13':    '#a3b38c',
+    'nord14':    '#b48ead'
+}
+
 # color definitions
 sonokai = {
     'bg':           '#2d2a2e',

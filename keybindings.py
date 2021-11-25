@@ -2,7 +2,7 @@ from libqtile import extension
 from libqtile.lazy import lazy
 from libqtile.config import Key
 
-from colors import gruvbox
+from colors import nord_fox
 
 mod = 'mod4'
 browser = 'firefox'
@@ -97,10 +97,10 @@ keys = [
             dmenu_font='Terminus',
             dmenu_height=22,
             dmenu_lines=15,
-            background=gruvbox['bg'],
-            foreground=gruvbox['dark-gray'],
-            selected_background=gruvbox['dark-gray'],
-            selected_foreground=gruvbox['fg'],
+            background=nord_fox['bg'],
+            foreground=nord_fox['fg'],
+            selected_background=nord_fox['fg_gutter'],
+            selected_foreground=nord_fox['fg'],
         )),
         desc="Spawn a command using a prompt widget"),
     Key([mod], "Return", 

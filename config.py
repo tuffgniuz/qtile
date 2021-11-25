@@ -9,9 +9,10 @@ from libqtile import extension
 from libqtile.config import Click, Drag
 from libqtile.lazy import lazy
 
-from colors import gruvbox
+from colors import nord_fox
 from bar import widget_defaults, screens
 from keybindings import browser, terminal, keys, mod
+
 
 groups = [
     Group('1', label='一', matches=[Match(wm_class=[browser])]),
@@ -65,9 +66,13 @@ groups.append(
                 x=0.25,
                 width=0.5,
                 height=0.6,
-                opacity=1
-                )])
-        # mail - thunderbird
+                opacity=1),
+        DropDown('discord',
+                 'discord',
+                 y=0.1,
+                 x=0.25,
+                 opacity=1)
+        ])
         )
 
 layouts = [
@@ -77,10 +82,10 @@ layouts = [
     # layout.Matrix(),
     layout.MonadTall(
         margin=10,
-        border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['fg'],
+        border_normal=nord_fox['black'],
+        border_focus=nord_fox['fg_gutter'],
         border_width=2,
-        single_border_width = 1
+        single_border_width = 2
         ),
     # layout.MonadWide(),
     # # layout.RatioTile(),
@@ -121,7 +126,7 @@ floating_layout = layout.Floating(
     Match(title='branchdialog'),  # gitk
     Match(title='pinentry'),  # GPG key password entry
     ],
-    border_focus=gruvbox['blue'],
+    border_focus=nord_fox['fg_gutter'],
     border_width=2)
 
 auto_fullscreen = True
