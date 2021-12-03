@@ -24,7 +24,7 @@ groups = [
                                                     'discord', 
                                                     'element-desktop', 
                                                     'slack'])], layout='max'),
-    Group('5', label='五', matches=[Match(wm_class=['transmission-gtk'])]),
+    Group('5', label='五', matches=[Match(wm_class=['qbittorrent'])]),
     Group('6', label='六'),
     Group('7', label='七'),
     Group('8', label='八'),
@@ -114,7 +114,7 @@ floating_layout = layout.Floating(
     float_rules=[
     *layout.Floating.default_float_rules,
     Match(wm_class='blueman-manager'),
-    Match(wm_class='nemo'),
+    Match(wm_class='thunar'),
     Match(wm_class='pavucontrol'),
     Match(wm_class='zoom'),
     Match(wm_class='Msgcompose'),

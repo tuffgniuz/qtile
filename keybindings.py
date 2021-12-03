@@ -74,6 +74,11 @@ keys = [
     # toggle floating mode
     Key([mod, 'shift'], 'space',
         lazy.window.toggle_floating()),
+
+    # toggle fullscreen
+    Key([mod], 'f',
+        lazy.window.toggle_fullscreen(),
+        desc="Put focused window to/from fullscreen mode"),
     
     # Toggle between different layouts as defined below
     Key([mod], "Tab", 
@@ -94,12 +99,12 @@ keys = [
    Key([mod], "p", 
         lazy.run_extension(extension.DmenuRun(
             dmenu_prompt='',
-            dmenu_font='Terminus',
+            dmenu_font='VictorMono Nerd Font Mono',
             dmenu_height=22,
             dmenu_lines=15,
-            background=nord_fox['bg'],
-            foreground=nord_fox['fg'],
-            selected_background=nord_fox['fg_gutter'],
+            background=nord_fox['black'],
+            foreground=nord_fox['white'],
+            selected_background=nord_fox['magenta'],
             selected_foreground=nord_fox['fg'],
         )),
         desc="Spawn a command using a prompt widget"),
@@ -122,8 +127,8 @@ keys = [
         desc="Launch vtop"),
     
     # toggle scratchpad dropdowns
-    Key([], "F1", lazy.group['scratchpad'].dropdown_toggle('fm')),
-    Key([], "F2", lazy.group['scratchpad'].dropdown_toggle('ncmpcpp')),
-    Key([], "F3", lazy.group['scratchpad'].dropdown_toggle('term')),
+    Key([mod], "F1", lazy.group['scratchpad'].dropdown_toggle('fm')),
+    Key([mod], "F2", lazy.group['scratchpad'].dropdown_toggle('ncmpcpp')),
+    Key([mod], "F3", lazy.group['scratchpad'].dropdown_toggle('term')),
 ]
 

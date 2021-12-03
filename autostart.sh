@@ -14,7 +14,7 @@ redshift -l -6.175110:106.865036 -m randr &
 # [ ! -s ~/.config/mpd/pid ] && mpd
 
 # start mopidy
-mopidy &
+# mopidy &
 
 # xcompmgr -c -l10 -t10 &
 
@@ -27,9 +27,6 @@ nm-applet &
 
 # picom
 picom &
-
-# blueman-applet
-blueman-applet &
 
 # volctl - per-application  systemtray applet for PulseAudio
 volctl &
