@@ -1,6 +1,6 @@
 import os
-
 import subprocess
+
 from typing import List
 from libqtile.config import ScratchPad, DropDown, Group, Match, Key
 from libqtile import widget
@@ -13,6 +13,7 @@ from colors import nord_fox
 from bar import widget_defaults, screens
 from keybindings import browser, terminal, keys, mod
 
+file_browser = 'nemo'
 
 groups = [
     Group('1', label='一', matches=[Match(wm_class=[browser])]),
@@ -23,8 +24,8 @@ groups = [
     Group('4', label='四', matches=[Match(wm_class=['zoom', 
                                                     'discord', 
                                                     'element-desktop', 
-                                                    'slack'])], layout='max'),
-    Group('5', label='五', matches=[Match(wm_class=['qbittorrent'])]),
+                                                    'slack'])]),
+    Group('5', label='五', matches=[Match(wm_class=['spotify'])]),
     Group('6', label='六'),
     Group('7', label='七'),
     Group('8', label='八'),
@@ -42,38 +43,15 @@ for group in groups:
 # append scratchpad to list of groups
 groups.append(
     ScratchPad('scratchpad', [
-        # nnn file manager
-        DropDown("fm", 
-                f"{terminal} nnn -d -C", 
-                y=0.1,
-                x=0.25,
-                width=0.5,
-                height=0.6,
-                opacity=1,
-                ),
-        # ncmpcpp music player
-        DropDown('ncmpcpp', 
-                f'{terminal} ncmpcpp', 
-                y=0.1,
-                x=0.25,
-                width=0.5,
-                height=0.6,
-                opacity=1),
-        # term
-        DropDown('term',
+            DropDown('term',
                 f'{terminal}',
                 y=0.1,
                 x=0.25,
                 width=0.5,
                 height=0.6,
                 opacity=1),
-        DropDown('discord',
-                 'discord',
-                 y=0.1,
-                 x=0.25,
-                 opacity=1)
         ])
-        )
+)
 
 layouts = [
     # layout.Columns()j
@@ -85,7 +63,8 @@ layouts = [
         border_normal=nord_fox['black'],
         border_focus=nord_fox['fg_gutter'],
         border_width=2,
-        single_border_width = 2
+        single_border_width = 2,
+        single_margin=0
         ),
     # layout.MonadWide(),
     # # layout.RatioTile(),
@@ -114,9 +93,12 @@ floating_layout = layout.Floating(
     float_rules=[
     *layout.Floating.default_float_rules,
     Match(wm_class='blueman-manager'),
-    Match(wm_class='thunar'),
+    Match(wm_class=file_browser),
     Match(wm_class='pavucontrol'),
     Match(wm_class='zoom'),
+    Match(wm_class='xarchiver'),
+    Match(wm_class='bitwarden'),
+    Match(wm_class='mictray'),
     Match(wm_class='Msgcompose'),
 
     Match(wm_class='confirmreset'),  # gitk
@@ -126,7 +108,7 @@ floating_layout = layout.Floating(
     Match(title='branchdialog'),  # gitk
     Match(title='pinentry'),  # GPG key password entry
     ],
-    border_focus=nord_fox['fg_gutter'],
+    border_focus=nord_fox['magenta'],
     border_width=2)
 
 auto_fullscreen = True

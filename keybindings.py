@@ -98,8 +98,8 @@ keys = [
     # Spawn apps
    Key([mod], "p", 
         lazy.run_extension(extension.DmenuRun(
-            dmenu_prompt='',
-            dmenu_font='VictorMono Nerd Font Mono',
+            dmenu_prompt='Run',
+            dmenu_font='TerminessTTF Nerd Font Mono',
             dmenu_height=22,
             dmenu_lines=15,
             background=nord_fox['black'],
@@ -125,10 +125,11 @@ keys = [
     Key([mod], 'v',
         lazy.spawn(f'{terminal} vtop'),
         desc="Launch vtop"),
-    
+    Key([mod, "shift"], "p",
+        lazy.spawn('bitwarden-desktop'),
+        desc="Run bitwarden desktop"),
+
     # toggle scratchpad dropdowns
-    Key([mod], "F1", lazy.group['scratchpad'].dropdown_toggle('fm')),
-    Key([mod], "F2", lazy.group['scratchpad'].dropdown_toggle('ncmpcpp')),
-    Key([mod], "F3", lazy.group['scratchpad'].dropdown_toggle('term')),
+    Key([], "F1", lazy.group['scratchpad'].dropdown_toggle('term')),
 ]
 

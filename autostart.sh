@@ -1,8 +1,8 @@
 #!/bin/sh
 
+# notification server
 
-# auto start fctix
-# fcitx5 -d %
+deadd-notification-center &
 
 # auto start redshift
 redshift -l -6.175110:106.865036 -m randr &
@@ -16,7 +16,6 @@ redshift -l -6.175110:106.865036 -m randr &
 # start mopidy
 # mopidy &
 
-# xcompmgr -c -l10 -t10 &
 
 ##################
 # systray applets
@@ -26,13 +25,10 @@ redshift -l -6.175110:106.865036 -m randr &
 nm-applet &
 
 # picom
-picom &
+picom -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l 0 -r 3 -D2 -m 0.88 --experimental-backend &
 
-# volctl - per-application  systemtray applet for PulseAudio
+# mic and volumectl
+mictray &
 volctl &
 
-# MicTray - lightweight sys tray application to control the microphone state and volume using PulseAudio
-mictray &
 
-# vpn
-# nordvpn connect Singapore &
