@@ -2,7 +2,7 @@ from libqtile import widget
 from libqtile.bar import Bar
 from libqtile.config import Screen
 
-from colors import nord_fox, nord
+from colors import nord_fox
 from unicodes import lower_left_triangle
 
 widget_defaults = dict(
@@ -31,14 +31,14 @@ screens = [
                     block_highlight_text_color=nord_fox["red"],
                     highlight_color=nord_fox["bg"],
                 ),
-                lower_left_triangle(nord_fox["bg"], nord_fox["blue"]),
+                lower_left_triangle(nord_fox["bg"], nord_fox["magenta"]),
                 widget.CurrentLayout(
-                    foreground=nord_fox["white"],
-                    background=nord_fox["blue"],
+                    foreground=nord_fox["bg"],
+                    background=nord_fox["magenta"],
                     fmt="[{}]",
                     padding=10,
                 ),
-                lower_left_triangle(nord_fox["blue"], nord_fox["bg"]),
+                lower_left_triangle(nord_fox["magenta"], nord_fox["bg"]),
                 widget.WindowCount(
                     foreground=nord_fox["yellow"], padding=5, fmt=" {}"
                 ),
@@ -48,7 +48,7 @@ screens = [
                 widget.DF(
                     format=" {p} {uf}",
                     visible_on_warn=False,
-                    foreground=nord_fox["magenta"],
+                    foreground=nord_fox["blue"],
                     background=nord_fox['black']
                 ),
                 # lower_left_triangle(nord_fox['magenta'], nord_fox['pink']),

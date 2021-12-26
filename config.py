@@ -24,7 +24,8 @@ groups = [
     Group(
         "4",
         label="四",
-        matches=[Match(wm_class=["zoom", "whatsapp-for-linux", "discord", "slack"])],
+        matches=[
+            Match(wm_class=["zoom", "whatsapp-for-linux", "discord", "slack"])],
     ),
     Group("5", label="五", matches=[Match(wm_class=["Spotify"])]),
     Group("6", label="六"),
