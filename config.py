@@ -25,9 +25,9 @@ groups = [
         "4",
         label="四",
         matches=[
-            Match(wm_class=["zoom", "whatsapp-for-linux", "discord", "slack"])],
+            Match(wm_class=["zoom", "discord", "slack"])],
     ),
-    Group("5", label="五", matches=[Match(wm_class=["Spotify"])]),
+    Group("5", label="五"),
     Group("6", label="六"),
     Group("7", label="七"),
     Group("8", label="八"),
@@ -63,15 +63,6 @@ groups.append(
             DropDown(
                 "bitwarden",
                 "bitwarden-desktop",
-                y=0.1,
-                x=0.25,
-                width=0.5,
-                height=0.6,
-                opacity=1,
-            ),
-            DropDown(
-                "torrent-client",
-                "qbittorrent",
                 y=0.1,
                 x=0.25,
                 width=0.5,
