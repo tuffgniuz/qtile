@@ -93,13 +93,6 @@ keys = [
     Key([mod], "d", lazy.spawn("discord"), desc="Launch discord client"),
     Key([mod], "z", lazy.spawn("zoom"), desc="Launch zoom"),
     Key([mod], "e", lazy.spawn(f"{terminal} nnn -d -C")),
-    Key([mod], "v", lazy.spawn(f"{terminal} vtop"), desc="Launch vtop"),
-    Key(
-        [mod, "shift"],
-        "p",
-        lazy.spawn("bitwarden-desktop"),
-        desc="Run bitwarden desktop",
-    ),
     Key([mod], "e", lazy.spawn(file_browser), desc="Launch nemo"),
     # toggle scratchpad dropdowns
     Key(["control"], "1", lazy.group["scratchpad"].dropdown_toggle("term")),
