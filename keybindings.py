@@ -1,8 +1,9 @@
 from libqtile import extension
 from libqtile.lazy import lazy
-from libqtile.config import Key
+from libqtile.config import Click, Drag, Key
 
 from colors import nord_fox
+
 
 mod = "mod4"
 browser = "firefox"
@@ -97,4 +98,18 @@ keys = [
     # toggle scratchpad dropdowns
     Key(["control"], "1", lazy.group["scratchpad"].dropdown_toggle("term")),
     Key(["control"], "2", lazy.group["scratchpad"].dropdown_toggle("bitwarden")),
+]
+
+# Drag floating layouts.
+mouse = [
+    Drag(
+        [mod],
+        "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
+    Drag(
+        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
+    ),
+    Click([mod], "Button2", lazy.window.bring_to_front()),
 ]

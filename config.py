@@ -1,33 +1,30 @@
 import os
 import subprocess
 
-from libqtile.config import Click, Drag, ScratchPad, DropDown, Group, Match, Key
+from libqtile.config import ScratchPad, DropDown, Group, Match, Key
 from typing import List
 from libqtile.config import Match
-
-# from libqtile import widget
 from libqtile import hook, layout
 
-# from libqtile import extension
+from colors import nord_fox
 from libqtile.lazy import lazy
 from bar import screens, widget_defaults
-from colors import nord_fox
-from keybindings import browser, terminal, keys, mod
+from keybindings import browser, terminal, keys, mod, mouse
 
-
-office_suite = "DesktopEditors"
 
 groups = [
-    Group("1", label="一", matches=[Match(wm_class=[browser])]),
+    Group("1", label="一", matches=[Match(wm_class=[browser])], layout="max"),
     Group("2", label="二", matches=[Match(wm_class=["gimp"])]),
-    Group("3", label="三", matches=[Match(wm_class=[office_suite])]),
+    Group("3", label="三", matches=[
+          Match(wm_class=["DesktopEditors"])], layout="columns"),
     Group(
         "4",
         label="四",
         matches=[
             Match(wm_class=["zoom", "discord", "slack"])],
+        layout="max"
     ),
-    Group("5", label="五"),
+    Group("5", label="五", layout="max"),
     Group("6", label="六"),
     Group("7", label="七"),
     Group("8", label="八"),
@@ -74,7 +71,6 @@ groups.append(
 )
 
 layouts = [
-    # layout.Columns()j
     # layout.Stack(num_stacks=5),
     # layout.Bsp(),
     # layout.Matrix(),
@@ -87,6 +83,18 @@ layouts = [
         single_margin=0,
     ),
     layout.Max(single_border_width=2),
+
+    layout.Columns(
+        margin=10,
+        border_normal=nord_fox["black"],
+        border_focus=nord_fox["fg_gutter"],
+        border_normal_stack=nord_fox["black"],
+        border_focus_stack=nord_fox["magenta"],
+        border_width=2,
+        single_border_width=2,
+        single_margin=0,
+        border_on_single=True,
+    ),
     # layout.MonadWide(),
     # # layout.RatioTile(),
     # layout.Tile()
@@ -94,26 +102,6 @@ layouts = [
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
-
-# Drag floating layouts.
-mouse = [
-    Drag(
-        [mod],
-        "Button1",
-        lazy.window.set_position_floating(),
-        start=lazy.window.get_position(),
-    ),
-    Drag(
-        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
-    ),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
-]
-
-dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
-follow_mouse_focus = True
-bring_front_click = False
-cursor_warp = False
 
 floating_layout = layout.Floating(
     float_rules=[
@@ -137,6 +125,13 @@ floating_layout = layout.Floating(
     border_focus=nord_fox["black"],
     border_width=2,
 )
+
+dgroups_key_binder = None
+dgroups_app_rules = []  # type: List
+follow_mouse_focus = True
+bring_front_click = False
+cursor_warp = False
+
 
 auto_fullscreen = True
 focus_on_window_activation = "smart"
