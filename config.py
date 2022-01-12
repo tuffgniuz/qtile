@@ -1,11 +1,16 @@
 from typing import List  # noqa: F401
 
-from libqtile import bar, layout, widget
+from libqtile import bar, widget
+
+from libqtile.layout.columns import Columns
+from libqtile.layout.xmonad import MonadTall
+from libqtile.layout.floating import Floating
+
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
-from colors import nord_fox
+from colors import gruvbox
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -17,12 +22,21 @@ keys = [
     # Launch browser
     Key([mod], "w", lazy.spawn('firefox'), desc="Launch browser"),
     Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
+    Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     Key([mod], "f", lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen mode"),
     Key([mod, "shift"], "space", lazy.window.toggle_floating(),
         desc="Toggle fullscreen mode"),
+
+    # Keybinding for MonadTall
+    Key([mod], "i", lazy.layout.grow()),
+    Key([mod], "m", lazy.layout.shrink()),
+    Key([mod], "n", lazy.layout.normalize()),
+    Key([mod], "o", lazy.layout.maximize()),
+    Key([mod, "control"], "space", lazy.layout.flip()),
+
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -62,7 +76,7 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
 
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
@@ -73,15 +87,16 @@ keys = [
 # groups = [Group(i) for i in "123456789"]
 
 groups = [
-    Group('1', label="一", matches=[Match(wm_class='firefox')], layout="max"),
+    Group('1', label="一", matches=[
+          Match(wm_class='firefox')], layout="monadtall"),
     Group('2', label="二", layout="monadtall"),
     Group('3', label="三", layout="columns"),
-    Group('4', label="四", layout="max"),
-    Group('5', label="五", layout="max"),
-    Group('6', label="六", layout="max"),
-    Group('7', label="七", layout="max"),
-    Group('8', label="八", layout="max"),
-    Group('9', label="九", layout="max"),
+    Group('4', label="四", layout="monadtall"),
+    Group('5', label="五", matches=[Match(wm_class="obs")], layout="monadtall"),
+    Group('6', label="六", layout="monadtall"),
+    Group('7', label="七", layout="monadtall"),
+    Group('8', label="八", layout="monadtall"),
+    Group('9', label="九", layout="monadtall"),
 ]
 
 for i in groups:
@@ -97,20 +112,40 @@ for i in groups:
     ])
 
 layouts = [
-    layout.Columns(border_focus_stack=['#d75f5f', '#8f3d3d'], border_width=4),
-    layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    Columns(
+        border_normal=gruvbox['dark-gray'],
+        border_focus=gruvbox['dark-yellow'],
+        border_normal_stack=gruvbox['dark-gray'],
+        border_focus_stack=gruvbox['yellow'],
+        border_width=4,
+        border_on_single=2,
+        margin=10,
+        margin_on_single=0,
+    ),
+    MonadTall(
+        border_normal=gruvbox['dark-gray'],
+        border_focus=gruvbox['dark-yellow'],
+        margin=10,
+        border_width=4,
+        single_border_width=2,
+        single_margin=0,
+    ),
 ]
+
+floating_layout = Floating(
+    border_normal=gruvbox['dark-gray'],
+    border_focus=gruvbox['blue'],
+    border_width=2,
+    float_rules=[
+        *Floating.default_float_rules,
+        Match(wm_class='confirmreset'),  # gitk
+        Match(wm_class='makebranch'),  # gitk
+        Match(wm_class='maketag'),  # gitk
+        Match(wm_class='ssh-askpass'),  # ssh-askpass
+        Match(title='branchdialog'),  # gitk
+        Match(title='pinentry'),  # GPG key password entry
+        Match(wm_class="pavucontrol"),
+    ])
 
 widget_defaults = dict(
     font='sans',
@@ -131,7 +166,7 @@ screens = [
                 widget.Systray(),
                 widget.QuickExit(),
             ],
-            background=nord_fox['bg'],
+            background=gruvbox['bg'],
             size=24,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
@@ -153,16 +188,7 @@ dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
-    # Run the utility of `xprop` to see the wm class and name of an X client.
-    *layout.Floating.default_float_rules,
-    Match(wm_class='confirmreset'),  # gitk
-    Match(wm_class='makebranch'),  # gitk
-    Match(wm_class='maketag'),  # gitk
-    Match(wm_class='ssh-askpass'),  # ssh-askpass
-    Match(title='branchdialog'),  # gitk
-    Match(title='pinentry'),  # GPG key password entry
-])
+
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
