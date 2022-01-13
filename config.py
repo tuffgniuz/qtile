@@ -1,42 +1,63 @@
+import os
+import subprocess
 from typing import List  # noqa: F401
 
-from libqtile import bar, widget
+from libqtile import hook
 
+# import layout objects
 from libqtile.layout.columns import Columns
 from libqtile.layout.xmonad import MonadTall
+from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
+
+# import widgets and bar
+from libqtile.bar import Bar
+from libqtile.widget.groupbox import GroupBox
+from libqtile.widget.currentlayout import CurrentLayout
+from libqtile.widget.window_count import WindowCount
+from libqtile.widget.windowname import WindowName
+from libqtile.widget.prompt import Prompt
+from libqtile.widget.cpu import CPU
+from libqtile.widget.memory import Memory
+from libqtile.widget.net import Net
+from libqtile.widget.systray import Systray
+from libqtile.widget.clock import Clock
+from libqtile.widget.spacer import Spacer
 
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 from colors import gruvbox
+from unicodes import left_half_circle, right_half_circle
+
 
 mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-
-    # Launch browser
+    # Launch applications
     Key([mod], "w", lazy.spawn('firefox'), desc="Launch browser"),
     Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
     Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
+    # Command prompt
+    Key([mod], "p", lazy.spawncmd(),
+        desc="Spawn a command using a prompt widget"),
+
+    # Toggle floating and fullscreen
     Key([mod], "f", lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen mode"),
     Key([mod, "shift"], "space", lazy.window.toggle_floating(),
         desc="Toggle fullscreen mode"),
 
-    # Keybinding for MonadTall
+    # Keybindings for resizing windows in MonadTall layout
     Key([mod], "i", lazy.layout.grow()),
     Key([mod], "m", lazy.layout.shrink()),
     Key([mod], "n", lazy.layout.normalize()),
     Key([mod], "o", lazy.layout.maximize()),
     Key([mod, "control"], "space", lazy.layout.flip()),
-
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -80,19 +101,16 @@ keys = [
 
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget"),
 ]
-
-# groups = [Group(i) for i in "123456789"]
 
 groups = [
     Group('1', label="一", matches=[
-          Match(wm_class='firefox')], layout="monadtall"),
+          Match(wm_class='firefox')], layout="stack"),
     Group('2', label="二", layout="monadtall"),
     Group('3', label="三", layout="columns"),
-    Group('4', label="四", layout="monadtall"),
-    Group('5', label="五", matches=[Match(wm_class="obs")], layout="monadtall"),
+    Group('4', label="四", matches=[
+          Match(wm_class='discord'), Match(wm_class='zoom')], layout="stack"),
+    Group('5', label="五", matches=[Match(wm_class="obs")], layout="stack"),
     Group('6', label="六", layout="monadtall"),
     Group('7', label="七", layout="monadtall"),
     Group('8', label="八", layout="monadtall"),
@@ -114,28 +132,35 @@ for i in groups:
 layouts = [
     Columns(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['dark-yellow'],
+        border_focus=gruvbox['gray'],
+        border_width=2,
         border_normal_stack=gruvbox['dark-gray'],
-        border_focus_stack=gruvbox['yellow'],
-        border_width=4,
+        border_focus_stack=gruvbox['dark-blue'],
         border_on_single=2,
         margin=10,
-        margin_on_single=0,
+        margin_on_single=10,
     ),
     MonadTall(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['dark-yellow'],
+        border_focus=gruvbox['gray'],
         margin=10,
-        border_width=4,
+        border_width=2,
         single_border_width=2,
-        single_margin=0,
+        single_margin=10,
     ),
+    Stack(
+        border_normal=gruvbox['dark-gray'],
+        border_focus=gruvbox['gray'],
+        border_width=2,
+        num_stacks=1,
+        margin=10,
+    )
 ]
 
 floating_layout = Floating(
     border_normal=gruvbox['dark-gray'],
-    border_focus=gruvbox['blue'],
-    border_width=2,
+    border_focus=gruvbox['magenta'],
+    border_width=4,
     float_rules=[
         *Floating.default_float_rules,
         Match(wm_class='confirmreset'),  # gitk
@@ -145,34 +170,8 @@ floating_layout = Floating(
         Match(title='branchdialog'),  # gitk
         Match(title='pinentry'),  # GPG key password entry
         Match(wm_class="pavucontrol"),
+        Match(wm_class="zoom"),
     ])
-
-widget_defaults = dict(
-    font='sans',
-    fontsize=12,
-    padding=3,
-)
-extension_defaults = widget_defaults.copy()
-
-screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(),
-                widget.CurrentLayout(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.Systray(),
-                widget.QuickExit(),
-            ],
-            background=gruvbox['bg'],
-            size=24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        ),
-    ),
-]
 
 # Drag floating layouts.
 mouse = [
@@ -182,27 +181,109 @@ mouse = [
          start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front())
 ]
+widget_defaults = dict(
+    font='TerminessTTF Nerd Font',
+    fontsize=13,
+    padding=10,
+)
+
+extension_defaults = widget_defaults.copy()
+
+screens = [
+    Screen(
+        top=Bar(
+            [
+
+                left_half_circle(gruvbox['dark-blue']),
+                CurrentLayout(
+                    background=gruvbox['dark-blue'],
+                ),
+                right_half_circle(gruvbox['dark-blue']),
+
+                Spacer(length=5),
+
+                left_half_circle(gruvbox['dark-magenta']),
+                WindowCount(
+                    background=gruvbox['dark-magenta'],
+                    show_zero=True
+                ),
+                right_half_circle(gruvbox['dark-magenta']),
+
+                Spacer(length=5),
+
+                left_half_circle(gruvbox['dark-cyan']),
+                Clock(
+                    background=gruvbox['dark-cyan'],
+                    format='%Y-%m-%d %a %I:%M %p'),
+                right_half_circle(gruvbox['dark-cyan']),
+
+                Spacer(length=5),
+
+                Prompt(),
+                WindowName(),
+                # Spacer(length=400),
+
+
+                left_half_circle(gruvbox['bg']),
+                GroupBox(
+                    disable_drag=True,
+                    active=gruvbox['gray'],
+                    inactive=gruvbox['dark-gray'],
+                    highlight_method='line',
+                    block_highlight_text_color=gruvbox['red'],
+                    borderwidth=0,
+                    highlight_color=gruvbox['bg'],
+                    background=gruvbox['bg']
+                ),
+                right_half_circle(gruvbox['bg']),
+
+                Spacer(length=200),
+
+                Systray(
+                    padding=15,
+                    background='#00000000'
+                ),
+
+                Spacer(length=10),
+
+                left_half_circle(gruvbox['blue']),
+                CPU(background=gruvbox['blue']),
+                right_half_circle(gruvbox['blue']),
+
+                Spacer(length=5),
+
+                left_half_circle(gruvbox['magenta']),
+                Memory(background=gruvbox['magenta']),
+                right_half_circle(gruvbox['magenta']),
+
+                Spacer(length=5),
+
+                left_half_circle(gruvbox['cyan']),
+                Net(background=gruvbox['cyan']),
+                right_half_circle(gruvbox['cyan']),
+
+            ],
+            margin=[5, 10, 0, 10],
+            background='#00000000',
+            opacity=1,
+            size=26,
+        ),
+    ),
+]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
-bring_front_click = False
+bring_front_click = ''
 cursor_warp = False
-
-auto_fullscreen = True
+auto_fullscreen = False
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
 auto_minimize = True
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.run([home])
