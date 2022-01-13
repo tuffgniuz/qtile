@@ -132,7 +132,7 @@ for i in groups:
 layouts = [
     Columns(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['gray'],
+        border_focus=gruvbox['blue'],
         border_width=2,
         border_normal_stack=gruvbox['dark-gray'],
         border_focus_stack=gruvbox['dark-blue'],
@@ -142,7 +142,7 @@ layouts = [
     ),
     MonadTall(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['gray'],
+        border_focus=gruvbox['blue'],
         margin=10,
         border_width=2,
         single_border_width=2,
@@ -150,7 +150,7 @@ layouts = [
     ),
     Stack(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['gray'],
+        border_focus=gruvbox['blue'],
         border_width=2,
         num_stacks=1,
         margin=10,
@@ -184,7 +184,8 @@ mouse = [
 widget_defaults = dict(
     font='TerminessTTF Nerd Font',
     fontsize=13,
-    padding=10,
+    padding=8,
+    foreground=gruvbox['bg'],
 )
 
 extension_defaults = widget_defaults.copy()
@@ -193,7 +194,6 @@ screens = [
     Screen(
         top=Bar(
             [
-
                 left_half_circle(gruvbox['dark-blue']),
                 CurrentLayout(
                     background=gruvbox['dark-blue'],
@@ -204,6 +204,7 @@ screens = [
 
                 left_half_circle(gruvbox['dark-magenta']),
                 WindowCount(
+                    text_format='缾 {num}',
                     background=gruvbox['dark-magenta'],
                     show_zero=True
                 ),
@@ -214,28 +215,28 @@ screens = [
                 left_half_circle(gruvbox['dark-cyan']),
                 Clock(
                     background=gruvbox['dark-cyan'],
-                    format='%Y-%m-%d %a %I:%M %p'),
+                    format=' %Y-%m-%d %a %I:%M %p'),
                 right_half_circle(gruvbox['dark-cyan']),
 
                 Spacer(length=5),
 
-                Prompt(),
-                WindowName(),
-                # Spacer(length=400),
+                Prompt(
+                    foreground=gruvbox['fg']
+                ),
+                WindowName(foreground=gruvbox['fg']),
 
-
-                left_half_circle(gruvbox['bg']),
+                left_half_circle(gruvbox['dark-gray']),
                 GroupBox(
                     disable_drag=True,
-                    active=gruvbox['gray'],
-                    inactive=gruvbox['dark-gray'],
+                    active=gruvbox['fg'],
+                    inactive=gruvbox['bg'],
                     highlight_method='line',
                     block_highlight_text_color=gruvbox['red'],
                     borderwidth=0,
-                    highlight_color=gruvbox['bg'],
-                    background=gruvbox['bg']
+                    highlight_color=gruvbox['dark-gray'],
+                    background=gruvbox['dark-gray']
                 ),
-                right_half_circle(gruvbox['bg']),
+                right_half_circle(gruvbox['dark-gray']),
 
                 Spacer(length=200),
 
@@ -247,26 +248,32 @@ screens = [
                 Spacer(length=10),
 
                 left_half_circle(gruvbox['blue']),
-                CPU(background=gruvbox['blue']),
+                CPU(
+                    format=' {freq_current}GHz {load_percent}%',
+                    background=gruvbox['blue']),
                 right_half_circle(gruvbox['blue']),
 
                 Spacer(length=5),
 
                 left_half_circle(gruvbox['magenta']),
-                Memory(background=gruvbox['magenta']),
+                Memory(
+                    format=' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
+                    background=gruvbox['magenta']),
                 right_half_circle(gruvbox['magenta']),
 
                 Spacer(length=5),
 
                 left_half_circle(gruvbox['cyan']),
-                Net(background=gruvbox['cyan']),
+                Net(
+                    background=gruvbox['cyan']
+                ),
                 right_half_circle(gruvbox['cyan']),
 
             ],
-            margin=[5, 10, 0, 10],
+            margin=[10, 10, 5, 10],
             background='#00000000',
             opacity=1,
-            size=26,
+            size=25,
         ),
     ),
 ]
