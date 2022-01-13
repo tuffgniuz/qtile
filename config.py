@@ -159,7 +159,7 @@ layouts = [
 
 floating_layout = Floating(
     border_normal=gruvbox['dark-gray'],
-    border_focus=gruvbox['magenta'],
+    border_focus=gruvbox['dark-yellow'],
     border_width=4,
     float_rules=[
         *Floating.default_float_rules,
@@ -171,6 +171,8 @@ floating_layout = Floating(
         Match(title='pinentry'),  # GPG key password entry
         Match(wm_class="pavucontrol"),
         Match(wm_class="zoom"),
+        Match(wm_class="bitwarden"),
+        Match(wm_class="kdenlive"),
     ])
 
 # Drag floating layouts.
