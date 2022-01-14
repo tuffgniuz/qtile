@@ -4,6 +4,9 @@ from typing import List  # noqa: F401
 
 from libqtile import hook
 
+from libqtile.extension.dmenu import DmenuRun
+from libqtile.bar import Bar
+
 # import layout objects
 from libqtile.layout.columns import Columns
 from libqtile.layout.xmonad import MonadTall
@@ -11,7 +14,6 @@ from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
 
 # import widgets and bar
-from libqtile.bar import Bar
 from libqtile.widget.groupbox import GroupBox
 from libqtile.widget.currentlayout import CurrentLayout
 from libqtile.widget.window_count import WindowCount
@@ -43,8 +45,22 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     # Command prompt
-    Key([mod], "p", lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget"),
+    # Key([mod], "p", lazy.spawncmd(),
+    #     desc="Spawn a command using a prompt widget"),
+
+    # DmenuRun
+    Key([mod], 'p', lazy.run_extension(DmenuRun(
+        font="TerminessTTF Nerd Font",
+        fontsize="13",
+        dmenu_command="dmenu_run",
+        dmenu_prompt=" ",
+        dmenu_height=10,
+        dmenu_lines=15,
+        background=gruvbox['bg'],
+        foreground=gruvbox['gray'],
+        selected_foreground=gruvbox['dark-blue'],
+        selected_background=gruvbox['bg'],
+    ))),
 
     # Toggle floating and fullscreen
     Key([mod], "f", lazy.window.toggle_fullscreen(),
@@ -130,15 +146,12 @@ for i in groups:
     ])
 
 layouts = [
-    Columns(
+    Stack(
         border_normal=gruvbox['dark-gray'],
         border_focus=gruvbox['blue'],
         border_width=2,
-        border_normal_stack=gruvbox['dark-gray'],
-        border_focus_stack=gruvbox['dark-blue'],
-        border_on_single=2,
+        num_stacks=1,
         margin=10,
-        margin_on_single=10,
     ),
     MonadTall(
         border_normal=gruvbox['dark-gray'],
@@ -148,12 +161,15 @@ layouts = [
         single_border_width=2,
         single_margin=10,
     ),
-    Stack(
+    Columns(
         border_normal=gruvbox['dark-gray'],
         border_focus=gruvbox['blue'],
         border_width=2,
-        num_stacks=1,
+        border_normal_stack=gruvbox['dark-gray'],
+        border_focus_stack=gruvbox['dark-blue'],
+        border_on_single=2,
         margin=10,
+        margin_on_single=10,
     )
 ]
 
@@ -186,7 +202,7 @@ mouse = [
 widget_defaults = dict(
     font='TerminessTTF Nerd Font',
     fontsize=13,
-    padding=8,
+    padding=10,
     foreground=gruvbox['bg'],
 )
 
@@ -227,18 +243,18 @@ screens = [
                 ),
                 WindowName(foreground=gruvbox['fg']),
 
-                left_half_circle(gruvbox['dark-gray']),
+                left_half_circle(gruvbox['bg']),
                 GroupBox(
                     disable_drag=True,
-                    active=gruvbox['fg'],
-                    inactive=gruvbox['bg'],
+                    active=gruvbox['gray'],
+                    inactive=gruvbox['dark-gray'],
                     highlight_method='line',
                     block_highlight_text_color=gruvbox['red'],
                     borderwidth=0,
-                    highlight_color=gruvbox['dark-gray'],
-                    background=gruvbox['dark-gray']
+                    highlight_color=gruvbox['bg'],
+                    background=gruvbox['bg']
                 ),
-                right_half_circle(gruvbox['dark-gray']),
+                right_half_circle(gruvbox['bg']),
 
                 Spacer(length=200),
 
