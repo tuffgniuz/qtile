@@ -238,9 +238,6 @@ screens = [
 
                 Spacer(length=5),
 
-                Prompt(
-                    foreground=gruvbox['fg']
-                ),
                 WindowName(foreground=gruvbox['fg']),
 
                 left_half_circle(gruvbox['bg']),
@@ -256,7 +253,7 @@ screens = [
                 ),
                 right_half_circle(gruvbox['bg']),
 
-                Spacer(length=200),
+                Spacer(length=100),
 
                 Systray(
                     padding=15,
