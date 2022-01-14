@@ -238,6 +238,8 @@ screens = [
 
                 Spacer(length=5),
 
+                # Prompt(foreground=gruvbox['fg']),
+
                 WindowName(foreground=gruvbox['fg']),
 
                 left_half_circle(gruvbox['bg']),
