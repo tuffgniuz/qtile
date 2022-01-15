@@ -218,7 +218,7 @@ screens = [
                 ),
                 right_half_circle(gruvbox['dark-blue']),
 
-                Spacer(length=5),
+                Spacer(length=10),
 
                 left_half_circle(gruvbox['dark-magenta']),
                 WindowCount(
@@ -228,7 +228,7 @@ screens = [
                 ),
                 right_half_circle(gruvbox['dark-magenta']),
 
-                Spacer(length=5),
+                Spacer(length=10),
 
                 left_half_circle(gruvbox['dark-cyan']),
                 Clock(
@@ -236,7 +236,7 @@ screens = [
                     format=' %Y-%m-%d %a %I:%M %p'),
                 right_half_circle(gruvbox['dark-cyan']),
 
-                Spacer(length=5),
+                Spacer(length=10),
 
                 # Prompt(foreground=gruvbox['fg']),
 
@@ -270,7 +270,7 @@ screens = [
                     background=gruvbox['blue']),
                 right_half_circle(gruvbox['blue']),
 
-                Spacer(length=5),
+                Spacer(length=10),
 
                 left_half_circle(gruvbox['magenta']),
                 Memory(
@@ -278,7 +278,7 @@ screens = [
                     background=gruvbox['magenta']),
                 right_half_circle(gruvbox['magenta']),
 
-                Spacer(length=5),
+                Spacer(length=10),
 
                 left_half_circle(gruvbox['cyan']),
                 Net(
