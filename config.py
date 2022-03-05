@@ -5,7 +5,8 @@ from typing import List  # noqa: F401
 from libqtile import hook
 
 from libqtile.extension.dmenu import DmenuRun
-from libqtile.bar import Bar
+from libqtile.extension.window_list import WindowList
+from libqtile.extension.command_set import CommandSet
 
 # import layout objects
 from libqtile.layout.columns import Columns
@@ -14,32 +15,24 @@ from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
 
 # import widgets and bar
-from libqtile.widget.groupbox import GroupBox
-from libqtile.widget.currentlayout import CurrentLayout
-from libqtile.widget.window_count import WindowCount
-from libqtile.widget.windowname import WindowName
-from libqtile.widget.prompt import Prompt
-from libqtile.widget.cpu import CPU
-from libqtile.widget.memory import Memory
-from libqtile.widget.net import Net
-from libqtile.widget.systray import Systray
-from libqtile.widget.clock import Clock
-from libqtile.widget.spacer import Spacer
 
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad, Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
+# from libqtile.utils import guess_terminal
 
 from colors import gruvbox
-from unicodes import left_half_circle, right_half_circle
 
+from bar_transparent_rounded import bar
 
 mod = "mod4"
-terminal = guess_terminal()
+terminal = "kitty"
+# terminal = guess_terminal()
 
 keys = [
     # Launch applications
     Key([mod], "w", lazy.spawn('firefox'), desc="Launch browser"),
+    # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
+    #     desc="Launch nnn in home directory"),
     Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
     Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
@@ -57,8 +50,37 @@ keys = [
         dmenu_height=10,
         dmenu_lines=15,
         background=gruvbox['bg'],
-        foreground=gruvbox['gray'],
+        foreground=gruvbox['fg'],
         selected_foreground=gruvbox['dark-blue'],
+        selected_background=gruvbox['bg'],
+    ))),
+
+    Key([mod, "shift"], 'w', lazy.run_extension(WindowList(
+        all_groups=True,
+        font="TerminessTTF Nerd Font",
+        fontsize="13",
+        dmenu_prompt=" ",
+        dmenu_height=10,
+        # dmenu_lines=15,
+        background=gruvbox['bg'],
+        foreground=gruvbox['fg'],
+        selected_foreground=gruvbox['dark-blue'],
+        selected_background=gruvbox['bg'],
+    ))),
+
+    Key([mod, "control"], 'n', lazy.run_extension(CommandSet(
+        commands={
+            'Thesis notes': 'kitty nvim Neorg/Notes/Thesis/index.norg',
+            'Dev notes': 'kitty nvim Neorg/Notes/Dev/index.norg',
+            'JWL notes': 'kitty nvim Neorg/Notes/JWL/index.norg',
+            'YouTube notes': 'kitty nvim Neorg/YT/index.norg',
+        },
+        background=gruvbox['bg'],
+        foreground=gruvbox['fg'],
+        dmenu_prompt=' ',
+        dmenu_lines=10,
+        dmenu_height=10,
+        selected_foreground=gruvbox['blue'],
         selected_background=gruvbox['bg'],
     ))),
 
@@ -121,11 +143,11 @@ keys = [
 
 groups = [
     Group('1', label="一", matches=[
-          Match(wm_class='firefox')], layout="stack"),
+          Match(wm_class='firefox'), Match(wm_class='brave'), Match(wm_class='qutebrowser')], layout="stack"),
     Group('2', label="二", layout="monadtall"),
     Group('3', label="三", layout="columns"),
     Group('4', label="四", matches=[
-          Match(wm_class='discord'), Match(wm_class='zoom')], layout="stack"),
+          Match(wm_class='discord'), Match(wm_class='zoom'), Match(wm_class="teams-for-linux")], layout="stack"),
     Group('5', label="五", matches=[Match(wm_class="obs")], layout="stack"),
     Group('6', label="六", layout="monadtall"),
     Group('7', label="七", layout="monadtall"),
@@ -144,6 +166,23 @@ for i in groups:
         Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
             desc="move focused window to group {}".format(i.name)),
     ])
+
+# Append scratchpad with dropdowns to groups
+groups.append(ScratchPad('scratchpad', [
+    DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
+    DropDown('mixer', 'pavucontrol', width=0.4,
+             height=0.6, x=0.3, y=0.1, opacity=1),
+    DropDown('pomo', 'pomotroid', x=0.4, y=0.2, opacity=1),
+    DropDown('bitwarden', 'bitwarden-desktop',
+             width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
+]))
+# extend keys list with keybinding for scratchpad
+keys.extend([
+    Key(["control"], "1", lazy.group['scratchpad'].dropdown_toggle('term')),
+    Key(["control"], "2", lazy.group['scratchpad'].dropdown_toggle('mixer')),
+    Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('pomo')),
+    Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
+])
 
 layouts = [
     Stack(
@@ -166,7 +205,7 @@ layouts = [
         border_focus=gruvbox['blue'],
         border_width=2,
         border_normal_stack=gruvbox['dark-gray'],
-        border_focus_stack=gruvbox['dark-blue'],
+        border_focus_stack=gruvbox['cyan'],
         border_on_single=2,
         margin=10,
         margin_on_single=10,
@@ -175,8 +214,8 @@ layouts = [
 
 floating_layout = Floating(
     border_normal=gruvbox['dark-gray'],
-    border_focus=gruvbox['dark-yellow'],
-    border_width=4,
+    border_focus=gruvbox['red'],
+    border_width=3,
     float_rules=[
         *Floating.default_float_rules,
         Match(wm_class='confirmreset'),  # gitk
@@ -185,10 +224,13 @@ floating_layout = Floating(
         Match(wm_class='ssh-askpass'),  # ssh-askpass
         Match(title='branchdialog'),  # gitk
         Match(title='pinentry'),  # GPG key password entry
+
+        Match(title="Android Emulator - pixel5:5554"),
+        Match(wm_class="blueman-manager"),
         Match(wm_class="pavucontrol"),
         Match(wm_class="zoom"),
         Match(wm_class="bitwarden"),
-        Match(wm_class="kdenlive"),
+        Match(wm_class="nemo"),
     ])
 
 # Drag floating layouts.
@@ -208,99 +250,14 @@ widget_defaults = dict(
 
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(
-        top=Bar(
-            [
-                left_half_circle(gruvbox['dark-blue']),
-                CurrentLayout(
-                    background=gruvbox['dark-blue'],
-                ),
-                right_half_circle(gruvbox['dark-blue']),
-
-                Spacer(length=10),
-
-                left_half_circle(gruvbox['dark-magenta']),
-                WindowCount(
-                    text_format='缾 {num}',
-                    background=gruvbox['dark-magenta'],
-                    show_zero=True
-                ),
-                right_half_circle(gruvbox['dark-magenta']),
-
-                Spacer(length=10),
-
-                left_half_circle(gruvbox['dark-cyan']),
-                Clock(
-                    background=gruvbox['dark-cyan'],
-                    format=' %Y-%m-%d %a %I:%M %p'),
-                right_half_circle(gruvbox['dark-cyan']),
-
-                Spacer(length=10),
-
-                # Prompt(foreground=gruvbox['fg']),
-
-                WindowName(foreground=gruvbox['fg']),
-
-                left_half_circle(gruvbox['bg']),
-                GroupBox(
-                    disable_drag=True,
-                    active=gruvbox['gray'],
-                    inactive=gruvbox['dark-gray'],
-                    highlight_method='line',
-                    block_highlight_text_color=gruvbox['red'],
-                    borderwidth=0,
-                    highlight_color=gruvbox['bg'],
-                    background=gruvbox['bg']
-                ),
-                right_half_circle(gruvbox['bg']),
-
-                Spacer(length=100),
-
-                Systray(
-                    padding=15,
-                    background='#00000000'
-                ),
-
-                Spacer(length=10),
-
-                left_half_circle(gruvbox['blue']),
-                CPU(
-                    format=' {freq_current}GHz {load_percent}%',
-                    background=gruvbox['blue']),
-                right_half_circle(gruvbox['blue']),
-
-                Spacer(length=10),
-
-                left_half_circle(gruvbox['magenta']),
-                Memory(
-                    format=' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
-                    background=gruvbox['magenta']),
-                right_half_circle(gruvbox['magenta']),
-
-                Spacer(length=10),
-
-                left_half_circle(gruvbox['cyan']),
-                Net(
-                    background=gruvbox['cyan']
-                ),
-                right_half_circle(gruvbox['cyan']),
-
-            ],
-            margin=[10, 10, 5, 10],
-            background='#00000000',
-            opacity=1,
-            size=25,
-        ),
-    ),
-]
+screens = [Screen(top=bar)]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = ''
 cursor_warp = False
-auto_fullscreen = False
+auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 auto_minimize = True
