@@ -41,21 +41,21 @@ gruvbox = {
     'fg9':          '#ebdbb2'
 }
 
-gruvbox = {
-    'bg':           '#282828',
-    'fg':           '#ebdbb2',
-    'dark-red':     '#cc241d',
-    'red':          '#fb4934',
-    'dark-green':   '#98971a',
-    'green':        '#b8bb26',
-    'dark-yellow':  '#d79921',
-    'yellow':       '#fabd2f',
-    'dark-blue':    '#458588',
-    'blue':         '#83a598',
-    'dark-magenta':  '#b16286',
-    'magenta':       '#d3869b',
-    'dark-cyan':    '#689d6a',
-    'cyan':         '#8ec07c',
-    'dark-gray':    '#3d3d3d',
-    'gray':         '#666666',
-}
+# gruvbox = {
+#     'bg':           '#282828',
+#     'fg':           '#ebdbb2',
+#     'dark-red':     '#cc241d',
+#     'red':          '#fb4934',
+#     'dark-green':   '#98971a',
+#     'green':        '#b8bb26',
+#     'dark-yellow':  '#d79921',
+#     'yellow':       '#fabd2f',
+#     'dark-blue':    '#458588',
+#     'blue':         '#83a598',
+#     'dark-magenta':  '#b16286',
+#     'magenta':       '#d3869b',
+#     'dark-cyan':    '#689d6a',
+#     'cyan':         '#8ec07c',
+#     'dark-gray':    '#3d3d3d',
+#     'gray':         '#666666',
+# }

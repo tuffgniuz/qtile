@@ -1,6 +1,6 @@
 import os
 import subprocess
-from typing import List  # noqa: F401
+from typing import Callable, List  # noqa: F401
 
 from libqtile import hook
 
@@ -10,7 +10,7 @@ from libqtile.extension.command_set import CommandSet
 
 # import layout objects
 from libqtile.layout.columns import Columns
-from libqtile.layout.xmonad import MonadTall
+from libqtile.layout.xmonad import MonadTall, MonadWide
 from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
 
@@ -22,18 +22,21 @@ from libqtile.lazy import lazy
 
 from colors import gruvbox
 
-from bar_transparent_rounded import bar
+from bar1 import bar
 
 mod = "mod4"
 terminal = "kitty"
 # terminal = guess_terminal()
 
 keys = [
+    Key([mod, "control"], "1", lazy.to_screen(0)),
+    Key([mod, "control"], "2", lazy.to_screen(1)),
+
     # Launch applications
     Key([mod], "w", lazy.spawn('firefox'), desc="Launch browser"),
     # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
     #     desc="Launch nnn in home directory"),
-    Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
+    Key([mod], "d", lazy.spawn('discord-canary'), desc="Launch discord"),
     Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
@@ -148,18 +151,21 @@ groups = [
     Group('3', label="三", layout="columns"),
     Group('4', label="四", matches=[
           Match(wm_class='discord'), Match(wm_class='zoom'), Match(wm_class="teams-for-linux")], layout="stack"),
-    Group('5', label="五", matches=[Match(wm_class="obs")], layout="stack"),
+    Group('5', label="五", matches=[Match(wm_class="Spotify")], layout="stack"),
     Group('6', label="六", layout="monadtall"),
     Group('7', label="七", layout="monadtall"),
     Group('8', label="八", layout="monadtall"),
     Group('9', label="九", layout="monadtall"),
 ]
 
+
 for i in groups:
     keys.extend([
         # mod1 + letter of group = switch to group
         Key([mod], i.name, lazy.group[i.name].toscreen(),
             desc="Switch to group {}".format(i.name)),
+
+        # Key([mod], i.name, lazy.function(go_to_group(i.name))),
 
         # Or, use below if you prefer not to switch to that group.
         # mod1 + shift + letter of group = move focused window to group
@@ -187,35 +193,35 @@ keys.extend([
 layouts = [
     Stack(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['blue'],
+        border_focus=gruvbox['cyan'],
         border_width=2,
         num_stacks=1,
-        margin=10,
+        margin=8,
     ),
     MonadTall(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['blue'],
-        margin=10,
+        border_focus=gruvbox['cyan'],
+        margin=8,
         border_width=2,
-        single_border_width=2,
-        single_margin=10,
+        single_border_width=1,
+        single_margin=8,
     ),
     Columns(
         border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['blue'],
+        border_focus=gruvbox['cyan'],
         border_width=2,
         border_normal_stack=gruvbox['dark-gray'],
-        border_focus_stack=gruvbox['cyan'],
+        border_focus_stack=gruvbox['dark-green'],
         border_on_single=2,
-        margin=10,
-        margin_on_single=10,
+        margin=8,
+        margin_on_single=8,
     )
 ]
 
 floating_layout = Floating(
-    border_normal=gruvbox['dark-gray'],
-    border_focus=gruvbox['red'],
-    border_width=3,
+    border_normal=gruvbox['bg0'],
+    border_focus=gruvbox['magenta'],
+    border_width=2,
     float_rules=[
         *Floating.default_float_rules,
         Match(wm_class='confirmreset'),  # gitk
@@ -226,11 +232,14 @@ floating_layout = Floating(
         Match(title='pinentry'),  # GPG key password entry
 
         Match(title="Android Emulator - pixel5:5554"),
+        Match(wm_class="Genymotion Player"),
+        Match(title="AICOMS"),
         Match(wm_class="blueman-manager"),
         Match(wm_class="pavucontrol"),
-        Match(wm_class="zoom"),
+        Match(wm_class="zoom "),
         Match(wm_class="bitwarden"),
         Match(wm_class="nemo"),
+        Match(wm_class="xarchiver"),
     ])
 
 # Drag floating layouts.
@@ -250,7 +259,9 @@ widget_defaults = dict(
 
 extension_defaults = widget_defaults.copy()
 
-screens = [Screen(top=bar)]
+screens = [
+    Screen(top=bar)
+]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
@@ -264,7 +275,7 @@ auto_minimize = True
 wmname = "LG3D"
 
 
-@hook.subscribe.startup_once
+@ hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.run([home])

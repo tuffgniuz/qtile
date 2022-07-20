@@ -15,21 +15,21 @@ from colors import gruvbox
 from unicodes import left_half_circle, right_half_circle
 
 bar = Bar([
-    left_half_circle(gruvbox['blue']),
+    left_half_circle(gruvbox['yellow']),
     CurrentLayout(
-        background=gruvbox['blue'],
+        background=gruvbox['yellow'],
     ),
-    right_half_circle(gruvbox['blue']),
+    right_half_circle(gruvbox['yellow']),
 
     Spacer(length=10),
 
-    left_half_circle(gruvbox['magenta']),
+    left_half_circle(gruvbox['dark-blue']),
     WindowCount(
         text_format='缾 {num}',
-        background=gruvbox['magenta'],
+        background=gruvbox['dark-blue'],
         show_zero=True
     ),
-    right_half_circle(gruvbox['magenta']),
+    right_half_circle(gruvbox['dark-blue']),
 
     Spacer(length=10),
 
@@ -44,6 +44,8 @@ bar = Bar([
     # Prompt(foreground=gruvbox['fg']),
 
     WindowName(foreground=gruvbox['fg']),
+
+    Spacer(length=100),
 
     left_half_circle(gruvbox['bg']),
     GroupBox(
