@@ -6,11 +6,11 @@ from libqtile import hook
 
 from libqtile.extension.dmenu import DmenuRun
 from libqtile.extension.window_list import WindowList
-from libqtile.extension.command_set import CommandSet
+# from libqtile.extension.command_set import CommandSet
 
 # import layout objects
 from libqtile.layout.columns import Columns
-from libqtile.layout.xmonad import MonadTall, MonadWide
+from libqtile.layout.xmonad import MonadTall
 from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
 
@@ -20,7 +20,7 @@ from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad
 from libqtile.lazy import lazy
 # from libqtile.utils import guess_terminal
 
-from colors import gruvbox
+from colors import nord_fox
 
 from bar1 import bar
 
@@ -36,8 +36,9 @@ keys = [
     Key([mod], "w", lazy.spawn('firefox'), desc="Launch browser"),
     # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
     #     desc="Launch nnn in home directory"),
-    Key([mod], "d", lazy.spawn('discord-canary'), desc="Launch discord"),
+    Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
     Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
+    # Key([mod], "l", lazy.spawn('i3lock'), desc="Launch i3lock"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     # Command prompt
@@ -50,12 +51,13 @@ keys = [
         fontsize="13",
         dmenu_command="dmenu_run",
         dmenu_prompt=" ",
-        dmenu_height=10,
-        dmenu_lines=15,
-        background=gruvbox['bg'],
-        foreground=gruvbox['fg'],
-        selected_foreground=gruvbox['dark-blue'],
-        selected_background=gruvbox['bg'],
+        dmenu_bottom=True,
+        # dmenu_height=10,
+        # dmenu_lines=15,
+        background=nord_fox['bg'],
+        foreground=nord_fox['fg'],
+        selected_foreground=nord_fox['blue'],
+        selected_background=nord_fox['bg'],
     ))),
 
     Key([mod, "shift"], 'w', lazy.run_extension(WindowList(
@@ -65,26 +67,10 @@ keys = [
         dmenu_prompt=" ",
         dmenu_height=10,
         # dmenu_lines=15,
-        background=gruvbox['bg'],
-        foreground=gruvbox['fg'],
-        selected_foreground=gruvbox['dark-blue'],
-        selected_background=gruvbox['bg'],
-    ))),
-
-    Key([mod, "control"], 'n', lazy.run_extension(CommandSet(
-        commands={
-            'Thesis notes': 'kitty nvim Neorg/Notes/Thesis/index.norg',
-            'Dev notes': 'kitty nvim Neorg/Notes/Dev/index.norg',
-            'JWL notes': 'kitty nvim Neorg/Notes/JWL/index.norg',
-            'YouTube notes': 'kitty nvim Neorg/YT/index.norg',
-        },
-        background=gruvbox['bg'],
-        foreground=gruvbox['fg'],
-        dmenu_prompt=' ',
-        dmenu_lines=10,
-        dmenu_height=10,
-        selected_foreground=gruvbox['blue'],
-        selected_background=gruvbox['bg'],
+        background=nord_fox['bg'],
+        foreground=nord_fox['fg'],
+        selected_foreground=nord_fox['blue'],
+        selected_background=nord_fox['bg'],
     ))),
 
     # Toggle floating and fullscreen
@@ -178,40 +164,41 @@ groups.append(ScratchPad('scratchpad', [
     DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
     DropDown('mixer', 'pavucontrol', width=0.4,
              height=0.6, x=0.3, y=0.1, opacity=1),
-    DropDown('pomo', 'pomotroid', x=0.4, y=0.2, opacity=1),
-    DropDown('bitwarden', 'bitwarden-desktop',
-             width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
+    DropDown('blueman', 'blueman-manager', width=0.05,
+             height=0.6, x=0.35, y=0.1, opacity=1),
+    # DropDown('bitwarden', 'bitwarden-desktop',
+    #          width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
 ]))
 # extend keys list with keybinding for scratchpad
 keys.extend([
     Key(["control"], "1", lazy.group['scratchpad'].dropdown_toggle('term')),
     Key(["control"], "2", lazy.group['scratchpad'].dropdown_toggle('mixer')),
-    Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('pomo')),
-    Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
+    Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('blueman')),
+    # Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
 ])
 
 layouts = [
     Stack(
-        border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['cyan'],
+        border_normal=nord_fox['black'],
+        border_focus=nord_fox['blue'],
         border_width=2,
         num_stacks=1,
         margin=8,
     ),
     MonadTall(
-        border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['cyan'],
+        border_normal=nord_fox['black'],
+        border_focus=nord_fox['blue'],
         margin=8,
         border_width=2,
-        single_border_width=1,
+        single_border_width=2,
         single_margin=8,
     ),
     Columns(
-        border_normal=gruvbox['dark-gray'],
-        border_focus=gruvbox['cyan'],
+        border_normal=nord_fox['black'],
+        border_focus=nord_fox['blue'],
         border_width=2,
-        border_normal_stack=gruvbox['dark-gray'],
-        border_focus_stack=gruvbox['dark-green'],
+        border_normal_stack=nord_fox['black'],
+        border_focus_stack=nord_fox['magenta'],
         border_on_single=2,
         margin=8,
         margin_on_single=8,
@@ -219,8 +206,8 @@ layouts = [
 ]
 
 floating_layout = Floating(
-    border_normal=gruvbox['bg0'],
-    border_focus=gruvbox['magenta'],
+    border_normal=nord_fox['bg'],
+    border_focus=nord_fox['magenta'],
     border_width=2,
     float_rules=[
         *Floating.default_float_rules,
@@ -231,8 +218,7 @@ floating_layout = Floating(
         Match(title='branchdialog'),  # gitk
         Match(title='pinentry'),  # GPG key password entry
 
-        Match(title="Android Emulator - pixel5:5554"),
-        Match(wm_class="Genymotion Player"),
+        # Match(wm_class="protonvpn"),
         Match(title="AICOMS"),
         Match(wm_class="blueman-manager"),
         Match(wm_class="pavucontrol"),
@@ -252,9 +238,9 @@ mouse = [
 ]
 widget_defaults = dict(
     font='TerminessTTF Nerd Font',
-    fontsize=13,
+    fontsize=12,
     padding=10,
-    foreground=gruvbox['bg'],
+    bacgkround=nord_fox['bg'],
 )
 
 extension_defaults = widget_defaults.copy()
