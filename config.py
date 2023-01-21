@@ -1,24 +1,17 @@
 import os
 import subprocess
-from typing import Callable, List  # noqa: F401
+
+from typing import List
 
 from libqtile import hook
-
 from libqtile.extension.dmenu import DmenuRun
 from libqtile.extension.window_list import WindowList
-# from libqtile.extension.command_set import CommandSet
-
-# import layout objects
 from libqtile.layout.columns import Columns
 from libqtile.layout.xmonad import MonadTall
 from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
-
-# import widgets and bar
-
 from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad, Screen
 from libqtile.lazy import lazy
-# from libqtile.utils import guess_terminal
 
 from colors import nord_fox
 
@@ -26,7 +19,12 @@ from bar1 import bar
 
 mod = "mod4"
 terminal = "kitty"
-# terminal = guess_terminal()
+
+#  _  _________   ______ ___ _   _ ____  ____
+# | |/ / ____\ \ / / __ )_ _| \ | |  _ \/ ___|
+# | ' /|  _|  \ V /|  _ \| ||  \| | | | \___ \
+# | . \| |___  | | | |_) | || |\  | |_| |___) |
+# |_|\_\_____| |_| |____/___|_| \_|____/|____/
 
 keys = [
     Key([mod, "control"], "1", lazy.to_screen(0)),
@@ -40,10 +38,6 @@ keys = [
     Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
     # Key([mod], "l", lazy.spawn('i3lock'), desc="Launch i3lock"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-
-    # Command prompt
-    # Key([mod], "p", lazy.spawncmd(),
-    #     desc="Spawn a command using a prompt widget"),
 
     # DmenuRun
     Key([mod], 'p', lazy.run_extension(DmenuRun(
@@ -132,18 +126,24 @@ keys = [
 
 groups = [
     Group('1', label="一", matches=[
-          Match(wm_class='firefox'), Match(wm_class='brave'), Match(wm_class='qutebrowser')], layout="stack"),
+          Match(wm_class='firefox'), Match(wm_class='thunderbird'), Match(wm_class='qutebrowser')], layout="stack"),
     Group('2', label="二", layout="monadtall"),
     Group('3', label="三", layout="columns"),
     Group('4', label="四", matches=[
-          Match(wm_class='discord'), Match(wm_class='zoom'), Match(wm_class="teams-for-linux")], layout="stack"),
-    Group('5', label="五", matches=[Match(wm_class="Spotify")], layout="stack"),
+          Match(wm_class='discord'), Match(wm_class='zoom'), Match(wm_class="teams"), Match(wm_class="whatsdesk")], layout="stack"),
+    Group('5', label="五", matches=[
+          Match(wm_class="youtube music")], layout="stack"),
     Group('6', label="六", layout="monadtall"),
     Group('7', label="七", layout="monadtall"),
     Group('8', label="八", layout="monadtall"),
     Group('9', label="九", layout="monadtall"),
 ]
 
+#   ____ ____   ___  _   _ ____  ____
+#  / ___|  _ \ / _ \| | | |  _ \/ ___|
+# | |  _| |_) | | | | | | | |_) \___ \
+# | |_| |  _ <| |_| | |_| |  __/ ___) |
+#  \____|_| \_\\___/ \___/|_|   |____/
 
 for i in groups:
     keys.extend([
@@ -151,31 +151,35 @@ for i in groups:
         Key([mod], i.name, lazy.group[i.name].toscreen(),
             desc="Switch to group {}".format(i.name)),
 
-        # Key([mod], i.name, lazy.function(go_to_group(i.name))),
-
-        # Or, use below if you prefer not to switch to that group.
-        # mod1 + shift + letter of group = move focused window to group
         Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
             desc="move focused window to group {}".format(i.name)),
     ])
 
-# Append scratchpad with dropdowns to groups
+#  ____   ____ ____      _  _____ ____ _   _ ____   _    ____  ____
+# / ___| / ___|  _ \    / \|_   _/ ___| | | |  _ \ / \  |  _ \/ ___|
+# \___ \| |   | |_) |  / _ \ | || |   | |_| | |_) / _ \ | | | \___ \
+#  ___) | |___|  _ <  / ___ \| || |___|  _  |  __/ ___ \| |_| |___) |
+# |____/ \____|_| \_\/_/   \_\_| \____|_| |_|_| /_/   \_\____/|____/
+
 groups.append(ScratchPad('scratchpad', [
     DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
     DropDown('mixer', 'pavucontrol', width=0.4,
              height=0.6, x=0.3, y=0.1, opacity=1),
     DropDown('blueman', 'blueman-manager', width=0.05,
              height=0.6, x=0.35, y=0.1, opacity=1),
-    # DropDown('bitwarden', 'bitwarden-desktop',
-    #          width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
 ]))
-# extend keys list with keybinding for scratchpad
+
 keys.extend([
     Key(["control"], "1", lazy.group['scratchpad'].dropdown_toggle('term')),
     Key(["control"], "2", lazy.group['scratchpad'].dropdown_toggle('mixer')),
     Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('blueman')),
-    # Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
 ])
+
+#  _        _ __   _____  _   _ _____ ____
+# | |      / \\ \ / / _ \| | | |_   _/ ___|
+# | |     / _ \\ V / | | | | | | | | \___ \
+# | |___ / ___ \| || |_| | |_| | | |  ___) |
+# |_____/_/   \_\_| \___/ \___/  |_| |____/
 
 layouts = [
     Stack(
@@ -236,9 +240,10 @@ mouse = [
          start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front())
 ]
+
 widget_defaults = dict(
     font='TerminessTTF Nerd Font',
-    fontsize=12,
+    fontsize=13,
     padding=10,
     bacgkround=nord_fox['bg'],
 )

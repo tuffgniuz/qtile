@@ -17,29 +17,31 @@ from colors import nord_fox
 bar = Bar([
     GroupBox(
         disable_drag=True,
-        active=nord_fox['blue'],
+        active=nord_fox['magenta'],
         inactive=nord_fox['black'],
         highlight_method='line',
-        block_highlight_text_color=nord_fox['magenta'],
+        block_highlight_text_color=nord_fox['fg_gutter'],
         borderwidth=0,
         highlight_color=nord_fox['bg'],
-        background=nord_fox['bg']
+        background=nord_fox['bg'],
+        # spacing=2
     ),
-    right_arrow(nord_fox['blue'], nord_fox['bg']),
+    right_arrow(nord_fox['black'], nord_fox['bg']),
     CurrentLayout(
-        background=nord_fox['blue'],
+        background=nord_fox['black'],
         foreground=nord_fox['white']
+
     ),
-    right_arrow(nord_fox['magenta'], nord_fox['blue']),
+    right_arrow(nord_fox['fg_gutter'], nord_fox['black']),
 
     WindowCount(
         text_format='缾 {num}',
-        background=nord_fox['magenta'],
+        background=nord_fox['fg_gutter'],
         foreground=nord_fox['white'],
         show_zero=True,
     ),
 
-    right_arrow(nord_fox['bg'], nord_fox['magenta']),
+    right_arrow(nord_fox['bg'], nord_fox['fg_gutter']),
     WindowName(
         background=nord_fox['bg'],
         foreground=nord_fox['fg']
