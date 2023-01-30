@@ -11,8 +11,11 @@ from libqtile.widget.systray import Systray
 from libqtile.widget.window_count import WindowCount
 from libqtile.widget.windowname import WindowName
 
-from unicodes import right_arrow, left_arrow
+from unicodes import left_half_circle, right_arrow, left_arrow, right_half_circle
 from colors import nord_fox
+
+BAR_HEIGHT = 28
+# BAR_MARGIN = 5
 
 bar = Bar([
     GroupBox(
@@ -26,66 +29,65 @@ bar = Bar([
         background=nord_fox['bg'],
         # spacing=2
     ),
-    right_arrow(nord_fox['black'], nord_fox['bg']),
+    left_half_circle(nord_fox['red'], nord_fox['bg']),
     CurrentLayout(
-        background=nord_fox['black'],
-        foreground=nord_fox['white']
-
+        background=nord_fox['red'],
+        foreground=nord_fox['white'],
+        margin=10,
     ),
-    right_arrow(nord_fox['fg_gutter'], nord_fox['black']),
 
+    right_arrow(nord_fox['fg_gutter'], nord_fox['red']),
     WindowCount(
         text_format='缾 {num}',
         background=nord_fox['fg_gutter'],
         foreground=nord_fox['white'],
         show_zero=True,
     ),
+    right_half_circle(nord_fox['fg_gutter'], nord_fox['bg']),
 
-    right_arrow(nord_fox['bg'], nord_fox['fg_gutter']),
     WindowName(
         background=nord_fox['bg'],
         foreground=nord_fox['fg']
     ),
 
-    left_arrow(nord_fox['bg'], nord_fox['blue']),
+    left_half_circle(nord_fox['black'], nord_fox['bg']),
     CPU(
         format=' {freq_current}GHz {load_percent}%',
-        background=nord_fox['blue'],
-        foreground=nord_fox['white']
+        background=nord_fox['black'],
+        foreground=nord_fox['pink']
     ),
 
-    left_arrow(nord_fox['blue'], nord_fox['magenta']),
     Memory(
         format=' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
-        background=nord_fox['magenta'],
-        foreground=nord_fox['white']
+        background=nord_fox['black'],
+        foreground=nord_fox['cyan']
     ),
 
-    # # left_arrow(gruvbox['fg2'], gruvbox['fg3']),
-    # # # Net(
-    # # #     background=gruvbox['fg3'],
-    # # #     foreground=gruvbox['dark-blue']
-    # # # ),
+    Net(
+        background=nord_fox['black'],
+        foreground=nord_fox['green']
+    ),
     # # Battery(
     # #     background=gruvbox['fg3'],
     # #     format='{char} {percent:2.0%} {hour:d}:{min:02d}'
     # # ),
 
-    left_arrow(nord_fox['magenta'], nord_fox['cyan']),
+    left_half_circle(nord_fox['fg_gutter'], nord_fox['black']),
+    Systray(
+        background=nord_fox['fg_gutter']
+    ),
+    right_half_circle(nord_fox['fg_gutter'], nord_fox['black']),
+
     Clock(
-        background=nord_fox['cyan'],
+        background=nord_fox['black'],
         foreground=nord_fox['white'],
         format=' %Y-%m-%d %a %I:%M %p'
     ),
 
-    left_arrow(nord_fox['cyan'], nord_fox['white']),
-    Systray(
-        background=nord_fox['white']
-    ),
 
-    Spacer(length=20, background=nord_fox['white'])
+
 ],
     # background=nord_fox['bg'],
-    size=26,
-    margin=8
+    size=BAR_HEIGHT,
+    margin=8,
 )

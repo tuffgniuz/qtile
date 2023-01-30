@@ -31,41 +31,10 @@ keys = [
     Key([mod, "control"], "2", lazy.to_screen(1)),
 
     # Launch applications
-    Key([mod], "w", lazy.spawn('firefox'), desc="Launch browser"),
-    # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
-    #     desc="Launch nnn in home directory"),
-    Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
-    Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
-    # Key([mod], "l", lazy.spawn('i3lock'), desc="Launch i3lock"),
+    Key([mod], "w", lazy.spawn('brave'), desc="Launch browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
-    # DmenuRun
-    Key([mod], 'p', lazy.run_extension(DmenuRun(
-        font="TerminessTTF Nerd Font",
-        fontsize="13",
-        dmenu_command="dmenu_run",
-        dmenu_prompt=" ",
-        dmenu_bottom=True,
-        # dmenu_height=10,
-        # dmenu_lines=15,
-        background=nord_fox['bg'],
-        foreground=nord_fox['fg'],
-        selected_foreground=nord_fox['blue'],
-        selected_background=nord_fox['bg'],
-    ))),
-
-    Key([mod, "shift"], 'w', lazy.run_extension(WindowList(
-        all_groups=True,
-        font="TerminessTTF Nerd Font",
-        fontsize="13",
-        dmenu_prompt=" ",
-        dmenu_height=10,
-        # dmenu_lines=15,
-        background=nord_fox['bg'],
-        foreground=nord_fox['fg'],
-        selected_foreground=nord_fox['blue'],
-        selected_background=nord_fox['bg'],
-    ))),
+    Key([mod], "p", lazy.spawn('rofi -show drun'), desc="Run rofi"),
 
     # Toggle floating and fullscreen
     Key([mod], "f", lazy.window.toggle_fullscreen(),
@@ -124,6 +93,12 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 ]
 
+#   ____ ____   ___  _   _ ____  ____
+#  / ___|  _ \ / _ \| | | |  _ \/ ___|
+# | |  _| |_) | | | | | | | |_) \___ \
+# | |_| |  _ <| |_| | |_| |  __/ ___) |
+#  \____|_| \_\\___/ \___/|_|   |____/
+
 groups = [
     Group('1', label="一", matches=[
           Match(wm_class='firefox'), Match(wm_class='thunderbird'), Match(wm_class='qutebrowser')], layout="stack"),
@@ -133,17 +108,11 @@ groups = [
           Match(wm_class='discord'), Match(wm_class='zoom'), Match(wm_class="teams"), Match(wm_class="whatsdesk")], layout="stack"),
     Group('5', label="五", matches=[
           Match(wm_class="youtube music")], layout="stack"),
-    Group('6', label="六", layout="monadtall"),
-    Group('7', label="七", layout="monadtall"),
-    Group('8', label="八", layout="monadtall"),
-    Group('9', label="九", layout="monadtall"),
+    # Group('6', label="六", layout="monadtall"),
+    # Group('7', label="七", layout="monadtall"),
+    # Group('8', label="八", layout="monadtall"),
+    # Group('9', label="九", layout="monadtall"),
 ]
-
-#   ____ ____   ___  _   _ ____  ____
-#  / ___|  _ \ / _ \| | | |  _ \/ ___|
-# | |  _| |_) | | | | | | | |_) \___ \
-# | |_| |  _ <| |_| | |_| |  __/ ___) |
-#  \____|_| \_\\___/ \___/|_|   |____/
 
 for i in groups:
     keys.extend([
@@ -184,34 +153,34 @@ keys.extend([
 layouts = [
     Stack(
         border_normal=nord_fox['black'],
-        border_focus=nord_fox['blue'],
+        border_focus=nord_fox['cyan'],
         border_width=2,
         num_stacks=1,
-        margin=8,
+        margin=10,
     ),
     MonadTall(
         border_normal=nord_fox['black'],
-        border_focus=nord_fox['blue'],
-        margin=8,
+        border_focus=nord_fox['cyan'],
+        margin=10,
         border_width=2,
         single_border_width=2,
-        single_margin=8,
+        single_margin=10,
     ),
     Columns(
         border_normal=nord_fox['black'],
-        border_focus=nord_fox['blue'],
+        border_focus=nord_fox['cyan'],
         border_width=2,
         border_normal_stack=nord_fox['black'],
-        border_focus_stack=nord_fox['magenta'],
+        border_focus_stack=nord_fox['cyan'],
         border_on_single=2,
-        margin=8,
-        margin_on_single=8,
+        margin=10,
+        margin_on_single=10,
     )
 ]
 
 floating_layout = Floating(
     border_normal=nord_fox['bg'],
-    border_focus=nord_fox['magenta'],
+    border_focus=nord_fox['cyan'],
     border_width=2,
     float_rules=[
         *Floating.default_float_rules,
