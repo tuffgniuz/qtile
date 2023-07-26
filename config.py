@@ -1,16 +1,23 @@
 import os
 import subprocess
 
-from typing import List
 
 from libqtile import hook
-from libqtile.extension.dmenu import DmenuRun
-from libqtile.extension.window_list import WindowList
 from libqtile.layout.columns import Columns
+from libqtile.layout.verticaltile import VerticalTile
 from libqtile.layout.xmonad import MonadTall
 from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
-from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad, Screen
+from libqtile.config import (
+    Click,
+    Drag,
+    DropDown,
+    Group,
+    Key,
+    Match,
+    ScratchPad,
+    Screen
+)
 from libqtile.lazy import lazy
 
 from colors import nord_fox
@@ -31,10 +38,10 @@ keys = [
     Key([mod, "control"], "2", lazy.to_screen(1)),
 
     # Launch applications
-    Key([mod], "w", lazy.spawn('brave'), desc="Launch browser"),
+    Key([mod], "w", lazy.spawn('firefox'), desc="Launch browser"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
-    Key([mod], "p", lazy.spawn('rofi -show drun'), desc="Run rofi"),
+    Key([mod], "p", lazy.spawn('rofi -show run'), desc="Run rofi"),
 
     # Toggle floating and fullscreen
     Key([mod], "f", lazy.window.toggle_fullscreen(),
@@ -100,19 +107,38 @@ keys = [
 #  \____|_| \_\\___/ \___/|_|   |____/
 
 groups = [
-    Group('1', label="一", matches=[
-          Match(wm_class='firefox'), Match(wm_class='thunderbird'), Match(wm_class='qutebrowser')], layout="stack"),
+    Group(
+        '1',
+        label="一",
+        matches=[
+            Match(wm_class='firefox'),
+            Match(wm_class='brave'),
+            Match(wm_class='qutebrowser')
+        ],
+        layout="stack"
+    ),
     Group('2', label="二", layout="monadtall"),
     Group('3', label="三", layout="columns"),
-    Group('4', label="四", matches=[
-          Match(wm_class='discord'), Match(wm_class='zoom'), Match(wm_class="teams"), Match(wm_class="whatsdesk")], layout="stack"),
-    Group('5', label="五", matches=[
-          Match(wm_class="youtube music")], layout="stack"),
-    # Group('6', label="六", layout="monadtall"),
-    # Group('7', label="七", layout="monadtall"),
-    # Group('8', label="八", layout="monadtall"),
-    # Group('9', label="九", layout="monadtall"),
+    Group(
+        '4',
+        label="四",
+        matches=[
+            Match(wm_class="whatsdesk")
+        ],
+        layout="stack"
+    ),
+    Group(
+        '5',
+        label="五",
+        layout="stack"
+    ),
+    Group('6', label="六", matches=[
+          Match(wm_class="thunderbird")], layout="monadtall"),
+    Group('7', label="七", layout="monadtall"),
+    Group('8', label="八", layout="monadtall"),
+    Group('9', label="九", layout="monadtall"),
 ]
+
 
 for i in groups:
     keys.extend([
@@ -130,18 +156,55 @@ for i in groups:
 #  ___) | |___|  _ <  / ___ \| || |___|  _  |  __/ ___ \| |_| |___) |
 # |____/ \____|_| \_\/_/   \_\_| \____|_| |_|_| /_/   \_\____/|____/
 
-groups.append(ScratchPad('scratchpad', [
-    DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
-    DropDown('mixer', 'pavucontrol', width=0.4,
-             height=0.6, x=0.3, y=0.1, opacity=1),
-    DropDown('blueman', 'blueman-manager', width=0.05,
-             height=0.6, x=0.35, y=0.1, opacity=1),
-]))
+
+groups.append(
+    ScratchPad(
+        'scratchpad',
+        [
+            DropDown(
+                'term',
+                'kitty',
+                height=0.5,
+                x=0.3,
+                y=0.1,
+                opacity=1
+            ),
+            DropDown(
+                'mixer',
+                'pavucontrol',
+                width=0.4,
+                height=0.6,
+                x=0.3,
+                y=0.1,
+                opacity=1
+            ),
+            DropDown(
+                'pomodoro',
+                'pomatez',
+                width=0.05,
+                height=0.6,
+                x=0.35,
+                y=0.1,
+                opacity=1
+            ),
+            DropDown(
+                'blueman',
+                'blueman-manager',
+                width=0.05,
+                height=0.6,
+                x=0.35,
+                y=0.1,
+                opacity=1
+            ),
+        ]
+    )
+)
 
 keys.extend([
     Key(["control"], "1", lazy.group['scratchpad'].dropdown_toggle('term')),
     Key(["control"], "2", lazy.group['scratchpad'].dropdown_toggle('mixer')),
-    Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('blueman')),
+    Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('pomodoro')),
+    Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('blueman')),
 ])
 
 #  _        _ __   _____  _   _ _____ ____
@@ -173,9 +236,17 @@ layouts = [
         border_normal_stack=nord_fox['black'],
         border_focus_stack=nord_fox['cyan'],
         border_on_single=2,
-        margin=10,
+        margin=8,
         margin_on_single=10,
-    )
+    ),
+    VerticalTile(
+        border_normal=nord_fox['black'],
+        border_focus=nord_fox['cyan'],
+        border_width=2,
+        border_on_single=2,
+        margin=8,
+        margin_on_single=10,
+    ),
 ]
 
 floating_layout = Floating(
@@ -224,7 +295,7 @@ screens = [
 ]
 
 dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
+dgroups_app_rules = []
 follow_mouse_focus = True
 bring_front_click = ''
 cursor_warp = False
