@@ -164,6 +164,7 @@ groups.append(
             DropDown(
                 'term',
                 'kitty',
+                width=0.4,
                 height=0.5,
                 x=0.3,
                 y=0.1,
